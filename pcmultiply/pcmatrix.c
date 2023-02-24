@@ -92,7 +92,7 @@ int main (int argc, char * argv[])
   //
   // DELETE THIS CODE FOR YOUR SUBMISSION
   // ----------------------------------------------------------
-  bigmatrix = (Matrix **) malloc(sizeof(Matrix *) * BOUNDED_BUFFER_SIZE);
+  initialize_buffer();
   printf("MATRIX MULTIPLICATION DEMO:\n\n");
   Matrix *m1, *m2, *m3;
   for (int i=0;i<NUMBER_OF_MATRICES;i++)
@@ -131,7 +131,8 @@ int main (int argc, char * argv[])
   pthread_t co;
 
   // Add your code here to create threads and so on
-
+  pthread_create(&pr, NULL, prod_worker, "producer");
+  pthread_create(&co, NULL, cons_worker, "consumer");
 
   // These are used to aggregate total numbers for main thread output
   int prs = 0; // total #matrices produced

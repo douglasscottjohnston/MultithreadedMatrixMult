@@ -6,9 +6,22 @@
  *  TCSS 422 - Operating Systems
  */
 
-Matrix ** bigmatrix;
+// Data structure for the bounding buffer
+// bigmatrix - the bounding buffer
+// head - the index of the first matrix to get
+// tail - the index of the last matrix added
+// length - the length of the bounding buffer
+typedef struct buffer {
+  Matrix ** bigmatrix;
+  int head;
+  int tail;
+  int length;
+} buffer;
+
 
 // PRODUCER-CONSUMER put() get() function prototypes
+int put(Matrix * value);
+Matrix * get();
 
 // Data structure to track matrix production / consumption stats
 // sumtotal - total of all elements produced or consumed
