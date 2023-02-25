@@ -8,13 +8,13 @@
 
 // Data structure for the bounding buffer
 // bigmatrix - the bounding buffer
-// head - the index of the first matrix to get
-// tail - the index of the last matrix added
+// head - the index of the next matrix to get
+// put_index - the next index to put a matrix
 // length - the length of the bounding buffer
 typedef struct buffer {
   Matrix ** bigmatrix;
-  int head;
-  int tail;
+  int get_index;
+  int put_index;
   int length;
 } buffer;
 
@@ -22,6 +22,9 @@ typedef struct buffer {
 // PRODUCER-CONSUMER put() get() function prototypes
 int put(Matrix * value);
 Matrix * get();
+void initialize_buffer();
+int get_next_put_index();
+int get_next_get_index();
 
 // Data structure to track matrix production / consumption stats
 // sumtotal - total of all elements produced or consumed

@@ -19,6 +19,8 @@ int BOUNDED_BUFFER_SIZE;
 // Number of matrices to produce/consume
 #define LOOPS 1200
 int NUMBER_OF_MATRICES;
+int NUMBER_OF_PRODUCED_MATRICES;
+int NUMBER_OF_CONSUMED_MATRICES;
 
 // MATRIX MODE FLAG
 // mode 0 - Generate random matricies
