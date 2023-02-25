@@ -131,10 +131,11 @@ int main (int argc, char * argv[])
   // Here is an example to define one producer and one consumer
   pthread_t producers[1];
   pthread_t consumers[NUMWORK];
+  ProdConsStats stats;
 
   // Add your code here to create threads and so on
   for(int i = 0; i < 1; i++) {
-    pthread_create(&producers[i], NULL, prod_worker, NUMBER_OF_PRODUCED_MATRICES);
+    pthread_create(&producers[i], NULL, prod_worker, &stats);
   }
 
   for(int i = 0; i < 1; i++) {
@@ -148,17 +149,16 @@ int main (int argc, char * argv[])
   int constot = 0; // total sum of elements for matrices consumed
   int consmul = 0; // total # multiplications
 
-  ProdConsStats *stats;
   pthread_join(producers[0], (void *)&stats); // move this into the for loop when we want to creat multiple producers
 
-  prs += (*stats).matrixtotal;
-  prodtot += (*stats).sumtotal;
+  prs += (stats).matrixtotal;
+  prodtot += (stats).sumtotal;
 
   for(int i = 0; i < NUMWORK; i++) {
     pthread_join(consumers[i], (void *)&stats);
-    cos += (*stats).matrixtotal;
-    constot += (*stats).sumtotal;
-    consmul += (*stats).multtotal;
+    cos += (stats).matrixtotal;
+    constot += (stats).sumtotal;
+    consmul += (stats).multtotal;
   }
 
   // consume ProdConsStats from producer and consumer threads [HINT: return from join]
