@@ -13,6 +13,7 @@
 // length - the length of the bounding buffer
 typedef struct buffer {
   Matrix ** bigmatrix;
+  int* matrices_occupied;
   int get_index;
   int put_index;
   int length;
