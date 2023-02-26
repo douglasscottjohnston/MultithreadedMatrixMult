@@ -131,34 +131,35 @@ int main (int argc, char * argv[])
   // Here is an example to define one producer and one consumer
   pthread_t producers[1];
   pthread_t consumers[NUMWORK];
-  ProdConsStats stats;
+  ProdConsStats prods_stats[NUMWORK];
+  ProdConsStats cons_stats[NUMWORK];
 
   // Add your code here to create threads and so on
   for(int i = 0; i < 1; i++) {
-    pthread_create(&producers[i], NULL, prod_worker, &stats);
+    pthread_create(&producers[i], NULL, prod_worker, &prods_stats[0]);
   }
 
   for(int i = 0; i < 1; i++) {
-    pthread_create(&consumers[i], NULL, cons_worker, NUMBER_OF_CONSUMED_MATRICES);
+    pthread_create(&consumers[i], NULL, cons_worker, &cons_stats[0]);
   }
 
   // These are used to aggregate total numbers for main thread output
-  int prs = 0; // total #matrices produced
-  int cos = 0; // total #matrices consumed
-  int prodtot = 0; // total sum of elements for matrices produced
-  int constot = 0; // total sum of elements for matrices consumed
+  int prs = 0; // total sum of elements for matrices produced
+  int cos = 0; // total sum of elements for matrices consumed
+  int prodtot = 0; // total #matrices produced
+  int constot = 0; // total #matrices produced
   int consmul = 0; // total # multiplications
 
-  pthread_join(producers[0], (void *)&stats); // move this into the for loop when we want to creat multiple producers
+  pthread_join(producers[0], NULL); // move this into the for loop when we want to creat multiple producers
 
-  prs += (stats).matrixtotal;
-  prodtot += (stats).sumtotal;
+  prs += (prods_stats[0]).sumtotal;
+  prodtot += (prods_stats[0]).matrixtotal;
 
-  for(int i = 0; i < NUMWORK; i++) {
-    pthread_join(consumers[i], (void *)&stats);
-    cos += (stats).matrixtotal;
-    constot += (stats).sumtotal;
-    consmul += (stats).multtotal;
+  for(int i = 0; i < 1; i++) {
+    pthread_join(consumers[i], NULL);
+    cos += cons_stats[i].sumtotal;
+    constot += cons_stats[i].matrixtotal;
+    consmul += cons_stats[i].multtotal;
   }
 
   // consume ProdConsStats from producer and consumer threads [HINT: return from join]
