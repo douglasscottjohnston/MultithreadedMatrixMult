@@ -21,6 +21,7 @@ typedef struct prodcons {
   int sumtotal;
   int multtotal;
   int matrixtotal;
+  counter_t counter;
 } ProdConsStats;
 
 // PRODUCER-CONSUMER thread method function prototypes

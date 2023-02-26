@@ -129,18 +129,15 @@ int main (int argc, char * argv[])
   printf("\n");
 
   // Here is an example to define one producer and one consumer
-  pthread_t producers[1];
-  pthread_t consumers[NUMWORK];
-  ProdConsStats prods_stats[NUMWORK];
-  ProdConsStats cons_stats[NUMWORK];
+  pthread_t producers[numw];
+  pthread_t consumers[numw];
+  ProdConsStats prods_stats[numw];
+  ProdConsStats cons_stats[numw];
 
   // Add your code here to create threads and so on
-  for(int i = 0; i < 1; i++) {
-    pthread_create(&producers[i], NULL, prod_worker, &prods_stats[0]);
-  }
-
-  for(int i = 0; i < 1; i++) {
-    pthread_create(&consumers[i], NULL, cons_worker, &cons_stats[0]);
+  for(int i = 0; i < numw; i++) {
+    pthread_create(&producers[i], NULL, prod_worker, &(prods_stats[i]));
+    pthread_create(&consumers[i], NULL, cons_worker, &(cons_stats[i]));
   }
 
   // These are used to aggregate total numbers for main thread output
@@ -150,17 +147,21 @@ int main (int argc, char * argv[])
   int constot = 0; // total #matrices produced
   int consmul = 0; // total # multiplications
 
-  pthread_join(producers[0], NULL); // move this into the for loop when we want to creat multiple producers
 
-  prs += (prods_stats[0]).sumtotal;
-  prodtot += (prods_stats[0]).matrixtotal;
-
-  for(int i = 0; i < 1; i++) {
+  for(int i = 0; i < numw; i++) {
+    pthread_join(producers[i], NULL);
+    prs += (prods_stats[i]).sumtotal;
+    prodtot += (prods_stats[i]).matrixtotal;
     pthread_join(consumers[i], NULL);
-    cos += cons_stats[i].sumtotal;
-    constot += cons_stats[i].matrixtotal;
-    consmul += cons_stats[i].multtotal;
+    cos += (cons_stats[i]).sumtotal;
+    constot += (cons_stats[i]).matrixtotal;
+    consmul += (cons_stats[i]).multtotal;
   }
+
+  printf("Producing %d matrices in mode %d.\n",NUMBER_OF_MATRICES,MATRIX_MODE);
+  printf("Using a shared buffer of size=%d\n", BOUNDED_BUFFER_SIZE);
+  printf("With %d producer and consumer thread(s).\n",numw);
+  printf("\n");
 
   // consume ProdConsStats from producer and consumer threads [HINT: return from join]
   // add up total matrix stats in prs, cos, prodtot, constot, consmul
