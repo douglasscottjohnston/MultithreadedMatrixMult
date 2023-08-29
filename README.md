@@ -15,5 +15,5 @@ Run the Makefile, then run pcmatrix with arguments in this order:
 3. The number of matrices to produce/consume
 4. The size 1-n of the matrices, or 0 for random matrices
 
-Here's an example command to run pcmatrix:
+Here's an example command to run pcmatrix:\
 ./pcmatrix 2 100 30 0
