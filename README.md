@@ -1,7 +1,7 @@
 # Multithreaded Matrix Mult
 A program created for the University of Washington, Tacoma TCSS 422 - Operating Systems
 
-# Contributers
+## Contributors
 Douglas Johnston
 Kevin Tran
 
