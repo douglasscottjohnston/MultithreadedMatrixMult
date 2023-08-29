@@ -1,5 +1,6 @@
 # Multithreaded Matrix Mult
-A program created for the University of Washington, Tacoma TCSS 422 - Operating Systems\by Douglas Johnston and Kevin Tran
+A program created for the University of Washington, Tacoma TCSS 422 - Operating Systems\
+by Douglas Johnston and Kevin Tran
 
 ## Description
 Uses the producer-consumer pattern to perform matrix multiplications
